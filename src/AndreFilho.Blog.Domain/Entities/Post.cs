@@ -10,7 +10,6 @@ namespace AndreFilho.Blog.Domain.Entities
     public class Post
     {
         
-
         public Post()
         {
             PostId = Guid.NewGuid();

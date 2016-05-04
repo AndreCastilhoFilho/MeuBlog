@@ -19,11 +19,11 @@ namespace AndreFilho.Blog.Infra.Data.Repository
         {
             Db = context;
             DbSet = Db.Set<TEntity>();
-        }       
-                
+        }
+
         public TEntity Add(TEntity obj)
         {
-          return  DbSet.Add(obj);
+            return DbSet.Add(obj);
         }
 
         public void Dispose()

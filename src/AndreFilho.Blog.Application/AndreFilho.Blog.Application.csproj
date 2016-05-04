@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,7 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPostAppService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\PostViewModel.cs" />
+    <Compile Include="ViewModel\TagViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AndreFilho.Blog.Domain\AndreFilho.Blog.Domain.csproj">
+      <Project>{5dd2d6b4-5af1-450f-a66e-d03335914b70}</Project>
+      <Name>AndreFilho.Blog.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AndreFilho.Blog.UI.MVC\AndreFilho.Blog.UI.MVC.csproj">
+      <Project>{6cc98a2d-3411-478f-9b2f-62d700b4da9d}</Project>
+      <Name>AndreFilho.Blog.UI.MVC</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
