@@ -26,6 +26,10 @@ namespace AndreFilho.Blog.UI.MVC
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css/blog-home").Include(
+                    "~/Content/bootstrap.css",
+                    "~/Content/blog-home.css"));
         }
     }
 }

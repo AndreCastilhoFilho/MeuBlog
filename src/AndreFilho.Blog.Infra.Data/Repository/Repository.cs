@@ -32,7 +32,7 @@ namespace AndreFilho.Blog.Infra.Data.Repository
             GC.SuppressFinalize(this);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             return DbSet.ToList();
         }
@@ -42,7 +42,7 @@ namespace AndreFilho.Blog.Infra.Data.Repository
             return DbSet.Find(id);
         }
 
-        public void Remove(Guid id)
+        public virtual void Remove(Guid id)
         {
             DbSet.Remove(DbSet.Find(id));
         }

@@ -12,7 +12,11 @@ namespace AndreFilho.Blog.Domain.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-
+        
+        public PostService(IPostRepository postRepository)
+        {
+            _postRepository = postRepository;
+        }
         public Post Add(Post obj)
         {
            return  _postRepository.Add(obj);

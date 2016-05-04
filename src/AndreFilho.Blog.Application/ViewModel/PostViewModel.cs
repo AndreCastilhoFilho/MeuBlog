@@ -55,5 +55,8 @@ namespace AndreFilho.Blog.Application.ViewModel
         [ScaffoldColumn(false)]
         public int CategoryId { get; set; }
 
+        [ScaffoldColumn(false)]
+        public CategoryViewModel Category { get; set; }
+
     }
 }
