@@ -20,6 +20,7 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         IEnumerable<Post> PostsBySearchAndPagination(string search, int pageNo, int pageSize);
         IEnumerable<Post> PostsByPaginationAndSorting(int pageNo, int pageSize, string sortColumn, bool sortByAscending);
         Post PostByYearMonthAndTitle(int year, int month, string titleSlug);
+        Post BostByUrlSlug(string urlSlug);
         int TotalPosts(bool checkIsPublished = true);
         int TotalPostsForTag(string tagSlug);
         int TotalPostsForSearch(string search);

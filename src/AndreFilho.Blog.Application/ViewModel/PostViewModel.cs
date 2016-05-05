@@ -13,6 +13,7 @@ namespace AndreFilho.Blog.Application.ViewModel
             Tags = new List<TagViewModel>();
         }
 
+        [Key]
         public Guid PostId { get; set; }
 
         [Required(ErrorMessage = "Preencha o campo Título")]
@@ -52,8 +53,9 @@ namespace AndreFilho.Blog.Application.ViewModel
 
         public  ICollection<TagViewModel> Tags { get; set; }
 
+        [Key]
         [ScaffoldColumn(false)]
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         [ScaffoldColumn(false)]
         public CategoryViewModel Category { get; set; }

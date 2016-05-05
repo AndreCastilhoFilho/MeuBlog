@@ -15,5 +15,6 @@ namespace AndreFilho.Blog.Domain.Interfaces.Repository
         IEnumerable<Post> PostsBySearchAndPagination(string search, int pageNo, int pageSize);
         IEnumerable<Post> PostsByPaginationAndSorting(int pageNo, int pageSize, string sortColumn, bool sortByAscending);
         Post PostByYearMonthAndTitle(int year, int month, string titleSlug);
+        Post PostByUrlSlug(string urlSlug);
     }
 }

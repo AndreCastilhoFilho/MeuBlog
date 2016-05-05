@@ -96,5 +96,10 @@ namespace AndreFilho.Blog.Domain.Services
             _postRepository.Dispose();
             GC.SuppressFinalize(this);
         }
+
+        public Post BostByUrlSlug(string urlSlug)
+        {
+            return _postRepository.PostByUrlSlug(urlSlug);
+        }
     }
 }

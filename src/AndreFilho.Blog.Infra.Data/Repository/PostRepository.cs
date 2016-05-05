@@ -116,5 +116,23 @@ namespace AndreFilho.Blog.Infra.Data.Repository
 
             return cn.Query<Post>(sql);
         }
+
+        public Post PostByUrlSlug(string urlSlug)
+        {
+            var cn = Db.Database.Connection;
+            var sql = @"SELECT * FROM Posts p " +
+                       " LEFT JOIN Categories c " +
+                       "ON p.PostId = c.CategoryId " +
+                       "WHERE p.SlugUrl = @surlSlug and p.Published = @sPublished";
+
+            var post = cn.Query<Post, Category, Post>(sql,
+               (p, c) =>
+               {
+                   p.Category = c;                  
+                   return p;
+               }, new { surlSlug = urlSlug , sPublished  = true}, splitOn: "PostId, CategoryId");
+
+            return post.SingleOrDefault();
+        }
     }
 }

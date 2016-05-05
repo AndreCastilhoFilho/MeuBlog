@@ -1,0 +1,23 @@
+﻿@model IEnumerable<AndreFilho.Blog.Application.ViewModel.CategoryViewModel>
+@using AndreFilho.Blog.UI.MVC.Helpers
+<!-- Blog Categories Well -->
+<div class="well">
+    <h4>Categorias</h4>
+    <div class="row">
+
+
+        <div class="col-lg-6">
+            <ul class="list-unstyled">
+                             
+                    @foreach (var category in Model)
+                    {
+                    <li>@Html.CategoryLink(category)</li>
+                    }              
+               
+            </ul>
+        </div>
+
+
+    </div>
+    <!-- /.row -->
+</div>

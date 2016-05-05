@@ -1,0 +1,40 @@
+﻿@model PagedList.IPagedList<AndreFilho.Blog.Application.ViewModel.BlogViewModel>
+@using PagedList.Mvc;
+
+@foreach (var post in Model)
+{
+
+    <h2>
+        <a href="#">
+            @Html.ActionLink(@post.Title, "Post", "Blog", new { slug = @post.SlugUrl }, null)
+        </a>
+    </h2>
+
+    <p class="lead">
+        por André Filho
+    </p>
+
+    <p><span class="glyphicon glyphicon-time"></span> Postado em  @post.PostedOn</p>
+
+    <p>@post.ShortDescription</p>
+
+    <a  href="@Url.Action("Post", "Blog", new { slug = @post.SlugUrl })" class="btn btn-primary">
+        Leia Mais      
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+}
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+
+    @{if (Model.PageCount > 1)
+        {
+            @:Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+            
+            @Html.PagedListPager(Model, page => Url.Action("Index", "Blog", new { page = page }), PagedListRenderOptions.Minimal)
+        }
+
+    }
+</ul>

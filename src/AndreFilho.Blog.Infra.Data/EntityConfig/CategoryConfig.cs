@@ -17,9 +17,6 @@ namespace AndreFilho.Blog.Infra.Data.EntityConfig
             Property(c => c.Description)
                 .HasMaxLength(200);
             
-            
-
-
             ToTable("Categories");
         }
          
