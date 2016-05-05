@@ -1,1 +1,28 @@
-﻿
+﻿@model AndreFilho.Blog.Application.ViewModel.PostViewModel
+@{
+
+    Layout = "~/Views/Shared/_LayoutBlog.cshtml";
+}
+<div class="col-md-8">
+    <!-- Blog Post -->
+    <!-- Title -->
+    <h1>  @Model.Title</h1>
+
+    <!-- Author -->
+    <p class="lead">
+        by <a href="#">André Filho</a>
+    </p>
+
+    <hr>
+    <!-- Date/Time -->
+    <p><span class="glyphicon glyphicon-time"></span> Postado em  @Model.PostedOn</p>
+
+    <hr>
+    <!-- Post Content -->
+    <p class="lead">
+        @Model.ShortDescription
+    </p>
+    <p>
+        @Model.Description
+    </p>
+</div>

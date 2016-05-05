@@ -300,8 +300,8 @@
     <Content Include="Views\Shared\_LayoutBlog.cshtml" />
     <Content Include="Views\Blog\Index.cshtml" />
     <Content Include="Views\Blog\_Posts.cshtml" />
-    <Content Include="Views\Blog\_Sidebar.cshtml" />
-    <Content Include="Views\Blog\_Categories.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Shared\_Categories.cshtml" />
     <Content Include="Views\Blog\Post.cshtml" />
   </ItemGroup>
   <ItemGroup>
