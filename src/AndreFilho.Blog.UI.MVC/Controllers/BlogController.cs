@@ -16,16 +16,27 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Index(int? page, string sortOrder, string searchString, string[] searchCategory, string[] searchTag)
+        public ActionResult Index(int? page, string sortOrder, string searchString, string searchCategory, string searchTag)
         {
+            ViewBag.CurrentSearchCategory = searchCategory;
             int pageNumber = (page ?? 1);
-
-            var posts = _blogService.GetAll().ToPagedList(pageNumber, pageSize);
-
-           // return PartialView("_Posts",posts);
-
+            
+            var posts = _blogService.GetPosts(searchString, searchCategory, searchTag).ToPagedList(pageNumber, pageSize);
+          
             return View(posts);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Category(string category)
+        {
+          
+            var posts = _blogService.PostsByCategory(category).ToPagedList(1, pageSize);
+
+
+            return View("Index",posts);
+        }
+
 
         [ChildActionOnly]
         public PartialViewResult Sidebar()
@@ -38,7 +49,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         [Route("Post/{slug}")]
         public ActionResult Post(string slug)
         {
-            var model = _blogService.getPostByUrlSlugslug(slug);
+            var model = _blogService.getPostByUrlSlug(slug);
             return View(model);
         }
 

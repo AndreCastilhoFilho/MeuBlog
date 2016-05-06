@@ -13,17 +13,22 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         Post GetById(Guid id);
         IEnumerable<Post> GetAll();
         Post Update(Post obj);
-        void Remove(Guid id);
-        IEnumerable<Post> PostsByPagination(int pageNo, int pageSize);
-        IEnumerable<Post> PostsByTagAndPagination(string tagSlug, int pageNo, int pageSize);
-        IEnumerable<Post> PostByCategoryAndPagination(string categorySlug, int pageNo, int pageSize);
-        IEnumerable<Post> PostsBySearchAndPagination(string search, int pageNo, int pageSize);
-        IEnumerable<Post> PostsByPaginationAndSorting(int pageNo, int pageSize, string sortColumn, bool sortByAscending);
+        void Remove(Guid id);       
+        IEnumerable<Post> PostsByTag(string tagSlug);
+
+      
+        IEnumerable<Post> PostsByCategory(string slug);
+
+        IEnumerable<Post> PostsBySearch(string search);
+      
         Post PostByYearMonthAndTitle(int year, int month, string titleSlug);
-        Post BostByUrlSlug(string urlSlug);
+        Post PostByUrlSlug(string urlSlug);
+
         int TotalPosts(bool checkIsPublished = true);
         int TotalPostsForTag(string tagSlug);
         int TotalPostsForSearch(string search);
 
+
+        IEnumerable<Post> GetPostsBySearchCategoryAndTag(string search, string categoryUrl, string tagUrl);
     }
 }

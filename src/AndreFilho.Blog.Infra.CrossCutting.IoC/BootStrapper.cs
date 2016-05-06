@@ -1,5 +1,6 @@
 ﻿
 using AndreFilho.Blog.Application;
+using AndreFilho.Blog.Application.Interfaces;
 using AndreFilho.Blog.Application.Services;
 using AndreFilho.Blog.Domain.Interfaces.Repository;
 using AndreFilho.Blog.Domain.Interfaces.Services;
@@ -19,7 +20,8 @@ namespace AndreFilho.Blog.Infra.CrossCutting.IoC
             // Lifestyle.Scoped => Uma instancia unica para o request
 
             // APP
-            container.Register<IBlogAppService, BlogAppService>(Lifestyle.Scoped); 
+            container.Register<IBlogAppService, BlogAppService>(Lifestyle.Scoped);
+            container.Register<IPostAppService, PostAppService>(Lifestyle.Scoped);
 
             // Domain
             container.Register<IPostService, PostService>(Lifestyle.Scoped);

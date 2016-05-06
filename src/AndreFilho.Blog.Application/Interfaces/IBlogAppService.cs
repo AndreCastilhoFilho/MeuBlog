@@ -8,9 +8,12 @@ namespace AndreFilho.Blog.Application
     public interface IBlogAppService : IDisposable
     {
         IEnumerable<BlogViewModel> GetAll();
+        IEnumerable<BlogViewModel> GetPosts(string search, string categoryUrl, string TagUrl);
 
         SideBarViewModel GetSideBar();
-   
-        PostViewModel getPostByUrlSlugslug(string slug);
+        PostViewModel getPostByUrlSlug(string slug);
+
+        IEnumerable<BlogViewModel>PostsByCategory(string slug);
+
     }
 }

@@ -42,10 +42,23 @@ namespace AndreFilho.Blog.Application.Services
             
         }
 
-        public PostViewModel getPostByUrlSlugslug(string slug)
+        public PostViewModel getPostByUrlSlug(string slug)
         {
             
-            return Mapper.Map<Post, PostViewModel>(_postService.BostByUrlSlug(slug));
+            return Mapper.Map<Post, PostViewModel>(_postService.PostByUrlSlug(slug));
+        }
+
+        public IEnumerable<BlogViewModel> PostsByCategory(string slug)
+        {
+
+            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_postService.PostsByCategory(slug));
+
+        }
+
+        public IEnumerable<BlogViewModel> GetPosts(string search, string categoryUrl, string TagUrl)
+        {
+            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_postService.GetPostsBySearchCategoryAndTag(search,categoryUrl, TagUrl));
+
         }
     }
 }

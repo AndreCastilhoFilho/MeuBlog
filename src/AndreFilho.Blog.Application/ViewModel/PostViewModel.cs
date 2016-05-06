@@ -53,7 +53,7 @@ namespace AndreFilho.Blog.Application.ViewModel
 
         public  ICollection<TagViewModel> Tags { get; set; }
 
-        [Key]
+      
         [ScaffoldColumn(false)]
         public Guid CategoryId { get; set; }
 

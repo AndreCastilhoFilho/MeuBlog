@@ -18,30 +18,43 @@ namespace AndreFilho.Blog.Infra.Data.Repository
         {
         }
 
-        public IEnumerable<Post> PostByCategoryAndPagination(string categorySlug, int pageNo, int pageSize)
+        public IEnumerable<Post> PostsByCategory(string categorySlug)
         {
             var cn = Db.Database.Connection;
             var sql = @"SELECT * FROM Posts p " +
                        " JOIN Categories c " +
-                       "ON p.PostId = c.CategoryId " +
-                        "LEFT JOIN Tags t " +
-                       "ON p.TagId = t.TagId " +
-                       "WHERE c.UrlSlug = @scategorySlug and p.Published = true";
+                       "ON p.CategoryId = c.CategoryId " +                       
+                       "WHERE ('' = @scategorySlug or  c.UrlSlug = @scategorySlug) and p.Published = @sPublished order by PostedOn desc";
 
-            var posts = cn.Query<Post, Category, Tag, Post>(sql,
-               (p, c, t) =>
+
+
+            var posts = cn.Query<Post, Category,  Post>(sql,
+               (p, c) =>
                {
                    p.Category = c;
-                   p.Tags.Add(t);
+                 
                    return p;
-               }, new { scategorySlug = categorySlug }, splitOn: "PostId, CategoryId, TagId");
+               }, new { scategorySlug = categorySlug ??"", sPublished = true }, splitOn: "PostId, CategoryId");
 
-            return posts.OrderByDescending(p => p.PostedOn)
-                            .Skip(pageNo * pageSize)
-                            .Take(pageSize)
-                            .ToList();
+            foreach (Post p in posts)
+                p.Tags = TagsFromPost(p.PostId).ToList();
+            
+
+            return posts.ToList();
+
+        }
+
+      private IEnumerable<Tag> TagsFromPost(Guid postId)
+        {
+            var cn = Db.Database.Connection;
+
+            var sql = "SELECT pt.PostId, t.* from PostTagMap pt  left join  Tags t on pt.TagId = t.TagId "+
+                " where pt.PostId = @spostId";
 
 
+            var tags = cn.Query<Tag>(sql, new { spostId = postId });
+
+            return tags; 
         }
 
         public Post PostByYearMonthAndTitle(int year, int month, string titleSlug)
@@ -54,59 +67,23 @@ namespace AndreFilho.Blog.Infra.Data.Repository
 
         }
 
-        public IEnumerable<Post> PostsByPagination(int pageNo, int pageSize)
-        {
-            var cn = Db.Database.Connection;
-            var sql = @"SELECT * FROM Posts p " +
-                       " JOIN Categories c " +
-                       "ON p.PostId = c.CategoryId " +
-                        "LEFT JOIN Tags t " +
-                       "ON p.TagId = t.TagId " +
-                       "WHERE  p.Published = @spublished ";
-
-
-            var posts = cn.Query<Post, Category, Tag, Post>(sql,
-               (p, c, t) =>
-               {
-                   p.Category = c;
-                   p.Tags.Add(t);
-                   return p;
-               }, new { spublished = true }, splitOn: "PostId, CategoryId, TagId");
-
-            return posts.OrderByDescending(p => p.PostedOn)
-                            .Skip(pageNo * pageSize)
-                            .Take(pageSize)
-                            .ToList();
-
-
-        }
-
-        public IEnumerable<Post> PostsByPaginationAndSorting(int pageNo, int pageSize, string sortColumn, bool sortByAscending)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Post> PostsBySearchAndPagination(string search, int pageNo, int pageSize)
+      
+       
+        public IEnumerable<Post> PostsBySearch(string search)
         {
             return Search(p => p.Published &&
             (p.Title.Contains(search) ||
             p.Category.Name.Equals(search) ||
             p.Tags.Any(t => t.Name.Equals(search))))
-                              .OrderByDescending(p => p.PostedOn)
-                              .Skip(pageNo * pageSize)
-                              .Take(pageSize)
+                              .OrderByDescending(p => p.PostedOn)                            
                               .ToList();
-
         }
 
-        public IEnumerable<Post> PostsByTagAndPagination(string tagSlug, int pageNo, int pageSize)
+        public IEnumerable<Post> PostsByTag(string tagSlug)
         {
             return Search(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
-                             .OrderByDescending(p => p.PostedOn)
-                             .Skip(pageNo * pageSize)
-                             .Take(pageSize)
-                             .ToList();
-        }
+                             .OrderByDescending(p => p.PostedOn)                            
+                             .ToList();        }
 
 
         public override IEnumerable<Post> GetAll()
@@ -134,5 +111,7 @@ namespace AndreFilho.Blog.Infra.Data.Repository
 
             return post.SingleOrDefault();
         }
+
+    
     }
 }

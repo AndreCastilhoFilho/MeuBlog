@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 namespace AndreFilho.Blog.Domain.Interfaces.Repository
 {
    public  interface IPostRepository : IRepository<Post>
-    {
-        IEnumerable<Post> PostsByPagination(int pageNo, int pageSize);
-        IEnumerable<Post> PostsByTagAndPagination(string tagSlug, int pageNo, int pageSize);
-        IEnumerable<Post> PostByCategoryAndPagination(string categorySlug, int pageNo, int pageSize);
-        IEnumerable<Post> PostsBySearchAndPagination(string search, int pageNo, int pageSize);
-        IEnumerable<Post> PostsByPaginationAndSorting(int pageNo, int pageSize, string sortColumn, bool sortByAscending);
+    {       
+        IEnumerable<Post> PostsByTag(string tagSlug);
+        IEnumerable<Post> PostsByCategory(string categorySlug);
+        IEnumerable<Post> PostsBySearch(string search);
+               
         Post PostByYearMonthAndTitle(int year, int month, string titleSlug);
         Post PostByUrlSlug(string urlSlug);
     }

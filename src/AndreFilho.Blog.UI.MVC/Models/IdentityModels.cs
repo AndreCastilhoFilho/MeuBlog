@@ -29,5 +29,7 @@ namespace AndreFilho.Blog.UI.MVC.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<AndreFilho.Blog.Application.ViewModel.PostViewModel> PostViewModels { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace AndreFilho.Blog.Application.ViewModel
             TagId = Guid.NewGuid();
             Posts = new List<PostViewModel>();
         }
-
+        [Key]
         public Guid TagId { get; set; }
 
         [Display(Name = "Nome")]

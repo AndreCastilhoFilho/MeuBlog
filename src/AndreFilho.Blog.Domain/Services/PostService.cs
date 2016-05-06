@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AndreFilho.Blog.Domain.Entities;
 using AndreFilho.Blog.Domain.Interfaces.Repository;
 
@@ -12,16 +10,16 @@ namespace AndreFilho.Blog.Domain.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
-        
+
         public PostService(IPostRepository postRepository)
         {
             _postRepository = postRepository;
         }
         public Post Add(Post obj)
         {
-           return  _postRepository.Add(obj);
+            return _postRepository.Add(obj);
         }
-         
+
         public IEnumerable<Post> GetAll()
         {
             return _postRepository.GetAll();
@@ -32,39 +30,25 @@ namespace AndreFilho.Blog.Domain.Services
             return _postRepository.GetById(id);
         }
 
-        public IEnumerable<Post> PostByCategoryAndPagination(string categorySlug, int pageNo, int pageSize)
-        {
-           return  _postRepository.PostByCategoryAndPagination(categorySlug, pageNo, pageSize);
-        }
 
         public Post PostByYearMonthAndTitle(int year, int month, string titleSlug)
         {
             return _postRepository.PostByYearMonthAndTitle(year, month, titleSlug);
         }
-
-        public IEnumerable<Post> PostsByPagination(int pageNo, int pageSize)
+                
+        public IEnumerable<Post> PostsBySearch(string search)
         {
-            return _postRepository.PostsByPagination(pageSize, pageSize);
+            return _postRepository.PostsBySearch(search);
         }
 
-        public IEnumerable<Post> PostsByPaginationAndSorting(int pageNo, int pageSize, string sortColumn, bool sortByAscending)
+        public IEnumerable<Post> PostsByTag(string tagSlug)
         {
-            return _postRepository.PostsByPaginationAndSorting(pageNo, pageSize, sortColumn, sortByAscending);
-        }
-
-        public IEnumerable<Post> PostsBySearchAndPagination(string search, int pageNo, int pageSize)
-        {
-            return _postRepository.PostsBySearchAndPagination(search, pageNo, pageSize);
-        }
-
-        public IEnumerable<Post> PostsByTagAndPagination(string tagSlug, int pageNo, int pageSize)
-        {
-            return _postRepository.PostsByTagAndPagination(tagSlug, pageNo, pageSize);
+            return _postRepository.PostsByTag(tagSlug);
         }
 
         public void Remove(Guid id)
         {
-             _postRepository.Remove(id);
+            _postRepository.Remove(id);
         }
 
         public int TotalPosts(bool checkIsPublished = true)
@@ -74,16 +58,16 @@ namespace AndreFilho.Blog.Domain.Services
 
         public int TotalPostsForSearch(string search)
         {
-          return GetAll().Where(p => p.Published && (p.Title.Contains(search) 
-          || p.Category.Name.Equals(search) 
-          || p.Tags.Any(t => t.Name.Equals(search))))             
-          .Count();
+            return GetAll().Where(p => p.Published && (p.Title.Contains(search)
+            || p.Category.Name.Equals(search)
+            || p.Tags.Any(t => t.Name.Equals(search))))
+            .Count();
         }
 
         public int TotalPostsForTag(string tagSlug)
         {
-           return GetAll().Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
-                     .Count();
+            return GetAll().Where(p => p.Published && p.Tags.Any(t => t.UrlSlug.Equals(tagSlug)))
+                      .Count();
         }
 
         public Post Update(Post obj)
@@ -97,9 +81,35 @@ namespace AndreFilho.Blog.Domain.Services
             GC.SuppressFinalize(this);
         }
 
-        public Post BostByUrlSlug(string urlSlug)
+        public Post PostByUrlSlug(string urlSlug)
         {
             return _postRepository.PostByUrlSlug(urlSlug);
+        }
+
+        public IEnumerable<Post> PostsByCategory(string slug)
+        {
+            return _postRepository.PostsByCategory(slug);
+        }
+
+        public IEnumerable<Post> GetPostsBySearchCategoryAndTag(string search, string categoryUrl, string tagUrl)
+        {
+            var posts = _postRepository.PostsByCategory(categoryUrl);
+
+            if (search != null && !String.IsNullOrEmpty(search))
+                posts = posts.Where(p => 
+                (p.Title.Contains(search)
+                || p.Category.Name.Equals(search)
+                || p.Tags.Any(t => t.Name.Equals(search))));
+
+            if (tagUrl != null && !String.IsNullOrEmpty(tagUrl))
+                posts = posts.Where(p => p.Tags.Any(t => t.UrlSlug.Equals(tagUrl)));
+
+
+            return posts;
+
+
+
+
         }
     }
 }
