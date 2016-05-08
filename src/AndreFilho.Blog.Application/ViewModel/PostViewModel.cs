@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AndreFilho.Blog.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace AndreFilho.Blog.Application.ViewModel
 {
@@ -25,13 +26,15 @@ namespace AndreFilho.Blog.Application.ViewModel
         [Display(Name = "Breve Descrição")]
         [Required(ErrorMessage = "Preencha o campo Breve Descrição")]
         [MaxLength(5000, ErrorMessage = "Máximo {0} caracteres")]
-        [MinLength(10, ErrorMessage = "Mínimo {0} caracteres")]
+        [MinLength(50, ErrorMessage = "Mínimo {0} caracteres")]
+        [AllowHtml]
         public string ShortDescription { get; set; }
 
         [Display(Name = "Descrição")]
         [Required(ErrorMessage = "Preencha o campo Descrição")]
         [MaxLength(5000, ErrorMessage = "Máximo {0} caracteres")]
-        [MinLength(10, ErrorMessage = "Mínimo {0} caracteres")]
+        [MinLength(100, ErrorMessage = "Mínimo {0} caracteres")]
+        [AllowHtml]
         public string Description { get; set; }
 
         [Required]
@@ -42,7 +45,7 @@ namespace AndreFilho.Blog.Application.ViewModel
         [Display(Name = "Url SEO")]
         public string SlugUrl { get; set; }
 
-        [ScaffoldColumn(false)]
+        [Display(Name = "Publicar")]
         public bool Published { get; set; }
 
         [ScaffoldColumn(false)]
@@ -53,12 +56,18 @@ namespace AndreFilho.Blog.Application.ViewModel
 
         public  ICollection<TagViewModel> Tags { get; set; }
 
-      
-        [ScaffoldColumn(false)]
+        [Display(Name = "Categoria")]
+        [Required(ErrorMessage ="Selecione a Categoria")]
         public Guid CategoryId { get; set; }
 
         [ScaffoldColumn(false)]
         public CategoryViewModel Category { get; set; }
+
+        [ScaffoldColumn(false)]
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
+
+
+        public IEnumerable<TagViewModel> TagList { get; set; }
 
     }
 }

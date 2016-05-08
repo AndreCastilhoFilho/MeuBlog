@@ -14,6 +14,7 @@ namespace AndreFilho.Blog.Application.Interfaces
         PostViewModel GetById(Guid id);
         IEnumerable<PostViewModel> GetAll();
         PostViewModel Update(PostViewModel obj);
+        IEnumerable<TagViewModel> getAllTags();
         void Remove(Guid id);
 
     }

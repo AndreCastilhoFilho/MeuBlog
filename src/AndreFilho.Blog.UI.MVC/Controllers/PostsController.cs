@@ -15,10 +15,12 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
     public class PostsController : Controller
     {
         private readonly IPostAppService _postAppService;
+        private readonly ICategoryAppService _categoryAppService;
 
-        public PostsController(IPostAppService postService)
+        public PostsController(IPostAppService postService, ICategoryAppService categoryService)
         {
             _postAppService = postService;
+            _categoryAppService = categoryService;
         }
 
         // GET: Posts
@@ -47,6 +49,13 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         // GET: Posts/Create
         public ActionResult Create()
         {
+            ViewBag.CategoryId = 
+                _categoryAppService.GetAll().Select(p=> new SelectListItem
+            {
+                Text = p.Name, Value = p.CategoryId.ToString()
+            });
+
+
             return View();
         }
 
@@ -59,6 +68,8 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+               // postViewModel.Category = _categoryAppService.GetById(postViewModel.CategoryId);
+
                 postViewModel = _postAppService.Add(postViewModel);
 
                 return RedirectToAction("Index", "Blog", null);
@@ -70,12 +81,14 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         // GET: Posts/Edit/5
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
+           if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var postViewModel = _postAppService.GetById(id.Value);
 
+            postViewModel.Categories = _categoryAppService.GetAll();
+            postViewModel.TagList = _postAppService.getAllTags();
             if (postViewModel == null)
             {
                 return HttpNotFound();
@@ -130,6 +143,20 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
                 _postAppService.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        
+        public ActionResult DeletarPostTag(Guid? idPost, Guid? idTag)
+        {
+            if (idPost == null || idTag == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //todo deletar tag do post
+            var postViewModel = _postAppService.GetById(idPost.Value);
+
+            return RedirectToAction("Edit", new { id = idPost});
         }
     }
 }

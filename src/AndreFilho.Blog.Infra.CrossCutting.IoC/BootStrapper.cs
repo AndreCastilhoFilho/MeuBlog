@@ -22,6 +22,7 @@ namespace AndreFilho.Blog.Infra.CrossCutting.IoC
             // APP
             container.Register<IBlogAppService, BlogAppService>(Lifestyle.Scoped);
             container.Register<IPostAppService, PostAppService>(Lifestyle.Scoped);
+            container.Register<ICategoryAppService, CategoryAppService>(Lifestyle.Scoped);
 
             // Domain
             container.Register<IPostService, PostService>(Lifestyle.Scoped);
@@ -30,6 +31,7 @@ namespace AndreFilho.Blog.Infra.CrossCutting.IoC
             // Dados
             container.Register<IPostRepository, PostRepository>(Lifestyle.Scoped);
             container.Register<ICategoryRepository, CategoryRepository>(Lifestyle.Scoped);
+            container.Register<ITagRepository, TagRepository>(Lifestyle.Scoped);
 
             //container.Register(typeof(IRepository<>), typeof(Repository<>));
             //  container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);

@@ -17,6 +17,8 @@ namespace AndreFilho.Blog.Domain.Services
         }
         public Post Add(Post obj)
         {
+            
+
             return _postRepository.Add(obj);
         }
 

@@ -1,0 +1,53 @@
+﻿@model AndreFilho.Blog.Application.ViewModel.PostViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Tags do Post</strong>
+    </div>
+
+    @if ( Model.Tags.Any())
+    {
+
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Tags)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+
+                    <td>
+
+                        <a href="@Url.Action("DeletarPostTag", "Posts", new {idPost = Model.PostId ,   idTag = item.TagId})" data-modal="" class="btn btn-danger">
+                            <span title="Excluir" class="glyphicon glyphicon-trash"></span>
+                        </a>
+
+                    </td>
+                </tr>
+
+
+
+            }
+        </table>
+
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Nenhuma Tag Cadastrada.
+                </th>
+            </tr>
+        </table>
+    }
+
+</div>

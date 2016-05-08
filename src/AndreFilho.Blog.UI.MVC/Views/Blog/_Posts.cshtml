@@ -16,7 +16,7 @@
 
     <p><span class="glyphicon glyphicon-time"></span> Postado em  @post.PostedOn</p>
 
-    <p>@post.ShortDescription</p>
+    <p> @Html.Raw(  @post.ShortDescription)</p>
 
     <a  href="@Url.Action("Post", "Blog", new { slug = @post.SlugUrl })" class="btn btn-primary">
         Leia Mais      

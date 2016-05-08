@@ -23,7 +23,10 @@ namespace AndreFilho.Blog.Infra.Data.Repository
 
         public TEntity Add(TEntity obj)
         {
-            return DbSet.Add(obj);
+            var objReturn = DbSet.Add(obj);
+
+            SaveChanges();
+            return objReturn;
         }
 
         public void Dispose()
@@ -45,6 +48,7 @@ namespace AndreFilho.Blog.Infra.Data.Repository
         public virtual void Remove(Guid id)
         {
             DbSet.Remove(DbSet.Find(id));
+            SaveChanges();
         }
 
         public int SaveChanges()
@@ -59,9 +63,11 @@ namespace AndreFilho.Blog.Infra.Data.Repository
 
         public TEntity Update(TEntity obj)
         {
+
             var entry = Db.Entry(obj);
             DbSet.Attach(obj);
             entry.State = EntityState.Modified;
+            SaveChanges();
             return obj;
         }
     }

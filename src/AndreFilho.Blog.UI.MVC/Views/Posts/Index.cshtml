@@ -35,10 +35,10 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ShortDescription)
+          @Html.Raw(item.ShortDescription)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+         @Html.Raw(item.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Meta)
@@ -48,7 +48,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.PostId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PostId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.PostId })
         </td>
     </tr>

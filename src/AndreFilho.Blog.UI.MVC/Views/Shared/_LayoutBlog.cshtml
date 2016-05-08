@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Home</title>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
     @Styles.Render("~/Content/css/blog-home")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -44,7 +45,7 @@
     <div class="container">  
         <div class="row">
             @RenderBody()
-            @Html.Action("Sidebar")
+            @Html.Action("Sidebar","Blog")
             </div>
             <hr />
             <footer>
