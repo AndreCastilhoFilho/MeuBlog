@@ -15,5 +15,6 @@ namespace AndreFilho.Blog.Domain.Interfaces.Repository
                
         Post PostByYearMonthAndTitle(int year, int month, string titleSlug);
         Post PostByUrlSlug(string urlSlug);
+      
     }
 }

@@ -66,7 +66,7 @@ namespace AndreFilho.Blog.Application.ViewModel
         [ScaffoldColumn(false)]
         public IEnumerable<CategoryViewModel> Categories { get; set; }
 
-
+        public Guid? SelectedTag { get;set; }
         public IEnumerable<TagViewModel> TagList { get; set; }
 
     }

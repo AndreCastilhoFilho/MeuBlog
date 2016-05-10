@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AndreFilho.Blog.Infra.Data.Context;
 using Dapper;
+using System.Data.Entity;
 
 namespace AndreFilho.Blog.Infra.Data.Repository
 {
@@ -112,6 +113,5 @@ namespace AndreFilho.Blog.Infra.Data.Repository
             return post.SingleOrDefault();
         }
 
-    
     }
 }

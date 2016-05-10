@@ -65,5 +65,16 @@ namespace AndreFilho.Blog.Application.Services
             _postService.Update(post);
             return obj;
         }
+
+        public PostViewModel RemoveTagFromPost(Guid tagId, Guid PostId)
+        {
+          return Mapper.Map < Post, PostViewModel >( _postService.RemoveTagFromPost(tagId, PostId));
+
+        }
+
+        public PostViewModel AddTagToPost(Guid TagId, Guid PostId)
+        {
+            return Mapper.Map<Post, PostViewModel>(_postService.AddTagToPost(TagId, PostId));
+        }
     }
 }

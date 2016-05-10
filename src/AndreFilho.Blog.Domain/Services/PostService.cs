@@ -10,10 +10,12 @@ namespace AndreFilho.Blog.Domain.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public PostService(IPostRepository postRepository)
+        public PostService(IPostRepository postRepository, ITagRepository tagRepository)
         {
             _postRepository = postRepository;
+            _tagRepository = tagRepository;
         }
         public Post Add(Post obj)
         {
@@ -112,6 +114,33 @@ namespace AndreFilho.Blog.Domain.Services
 
 
 
+        }
+
+        public Post RemoveTagFromPost(Guid TagId, Guid PostId)
+        {
+
+            var post = _postRepository.GetById(PostId);
+
+            var tag = post.Tags.Where(t => t.TagId == TagId).FirstOrDefault();
+
+            if (tag != null && post.Tags.Contains(tag))
+                post.Tags.Remove(tag);
+                       
+            return _postRepository.Update(post);
+
+           
+        }
+
+        public Post AddTagToPost(Guid TagId, Guid PostId)
+        {
+            var post = _postRepository.GetById(PostId);
+
+            var tag = _tagRepository.GetById(TagId);
+
+            if (!post.Tags.Contains(tag))
+                post.Tags.Add(tag);
+
+            return _postRepository.Update(post);
         }
     }
 }

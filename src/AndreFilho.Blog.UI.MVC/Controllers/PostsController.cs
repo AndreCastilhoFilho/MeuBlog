@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AndreFilho.Blog.Application.ViewModel;
-using AndreFilho.Blog.UI.MVC.Models;
+
 using AndreFilho.Blog.Application.Interfaces;
 
 namespace AndreFilho.Blog.UI.MVC.Controllers
@@ -67,12 +67,10 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         public ActionResult Create([Bind(Include = "PostId,Title,ShortDescription,Description,Meta,SlugUrl,Published,PostedOn,Modified,CategoryId,Category")] PostViewModel postViewModel)
         {
             if (ModelState.IsValid)
-            {
-               // postViewModel.Category = _categoryAppService.GetById(postViewModel.CategoryId);
-
+            {              
                 postViewModel = _postAppService.Add(postViewModel);
-
-                return RedirectToAction("Index", "Blog", null);
+            
+                return RedirectToAction("Edit", "Posts", new { id = postViewModel.PostId } );
             }
 
             return View(postViewModel);
@@ -152,11 +150,27 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+                       
+            _postAppService.RemoveTagFromPost(idTag.Value, idPost.Value);
 
-            //todo deletar tag do post
-            var postViewModel = _postAppService.GetById(idPost.Value);
+             var postViewModel = _postAppService.GetById(idPost.Value);
 
-            return RedirectToAction("Edit", new { id = idPost});
+            //todo retornar Json / tornar metodo AJAX
+
+            return PartialView("_TagList", postViewModel);
         }
+
+        public ActionResult AddTagToPost(Guid? idPost, Guid? idTag)
+        {
+            if (idPost == null || idTag == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+          var  postViewModel = _postAppService.AddTagToPost(idTag.Value, idPost.Value);
+
+            return PartialView("_TagList", postViewModel);
+
+        }
+            
     }
 }

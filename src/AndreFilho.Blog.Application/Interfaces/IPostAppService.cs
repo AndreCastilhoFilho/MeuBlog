@@ -15,6 +15,8 @@ namespace AndreFilho.Blog.Application.Interfaces
         IEnumerable<PostViewModel> GetAll();
         PostViewModel Update(PostViewModel obj);
         IEnumerable<TagViewModel> getAllTags();
+        PostViewModel RemoveTagFromPost(Guid TagId, Guid PostId);
+        PostViewModel AddTagToPost(Guid TagId, Guid PostId);
         void Remove(Guid id);
 
     }

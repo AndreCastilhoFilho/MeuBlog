@@ -27,8 +27,9 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         int TotalPosts(bool checkIsPublished = true);
         int TotalPostsForTag(string tagSlug);
         int TotalPostsForSearch(string search);
-
-
         IEnumerable<Post> GetPostsBySearchCategoryAndTag(string search, string categoryUrl, string tagUrl);
+
+        Post RemoveTagFromPost(Guid TagId, Guid PostId);
+        Post AddTagToPost(Guid TagId, Guid PostId);
     }
 }
