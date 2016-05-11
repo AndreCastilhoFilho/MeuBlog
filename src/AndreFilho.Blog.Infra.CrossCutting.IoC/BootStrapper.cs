@@ -6,7 +6,9 @@ using AndreFilho.Blog.Domain.Interfaces.Repository;
 using AndreFilho.Blog.Domain.Interfaces.Services;
 using AndreFilho.Blog.Domain.Services;
 using AndreFilho.Blog.Infra.Data.Context;
+using AndreFilho.Blog.Infra.Data.Interfaces;
 using AndreFilho.Blog.Infra.Data.Repository;
+using AndreFilho.Blog.Infra.Data.UoW;
 using SimpleInjector;
 
 namespace AndreFilho.Blog.Infra.CrossCutting.IoC
@@ -27,14 +29,15 @@ namespace AndreFilho.Blog.Infra.CrossCutting.IoC
             // Domain
             container.Register<IPostService, PostService>(Lifestyle.Scoped);
             container.Register<ICategoryService, CategoryService>(Lifestyle.Scoped);
-            
+            container.Register<ITagService, TagService>(Lifestyle.Scoped);
+
             // Dados
             container.Register<IPostRepository, PostRepository>(Lifestyle.Scoped);
             container.Register<ICategoryRepository, CategoryRepository>(Lifestyle.Scoped);
             container.Register<ITagRepository, TagRepository>(Lifestyle.Scoped);
 
             //container.Register(typeof(IRepository<>), typeof(Repository<>));
-            //  container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
+            container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
             container.Register<BlogContext>(Lifestyle.Scoped);
         }
     }

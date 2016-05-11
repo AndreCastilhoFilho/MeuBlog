@@ -5,14 +5,16 @@ using AndreFilho.Blog.Application.ViewModel;
 using AndreFilho.Blog.Domain.Entities;
 using AndreFilho.Blog.Domain.Interfaces.Services;
 using AutoMapper;
+using AndreFilho.Blog.Infra.Data.Interfaces;
 
 namespace AndreFilho.Blog.Application.Services
 {
-    public class CategoryAppService : ICategoryAppService
+    public class CategoryAppService : ApplicationService, ICategoryAppService
     {
         private readonly ICategoryService _categoryService;
 
-        public CategoryAppService(ICategoryService categoryService)
+        public CategoryAppService(ICategoryService categoryService, IUnitOfWork uow)
+            : base(uow)
         {
             _categoryService = categoryService;
         }
@@ -21,7 +23,9 @@ namespace AndreFilho.Blog.Application.Services
         public CategoryViewModel Add(CategoryViewModel obj)
         {
             var category = Mapper.Map<CategoryViewModel, Category>(obj);
+            BeginTransaction();
             _categoryService.Add(category);
+            Commit();
             return obj;
         }
 
@@ -37,14 +41,20 @@ namespace AndreFilho.Blog.Application.Services
 
         public CategoryViewModel Update(CategoryViewModel obj)
         {
-            var post = Mapper.Map<CategoryViewModel, Category>(obj);
+            var category = Mapper.Map<CategoryViewModel, Category>(obj);
+
+            BeginTransaction();
+            _categoryService.Update(category);
+            Commit();
 
             return obj;
         }
 
         public void Remove(Guid id)
         {
-         _categoryService.Remove(id);
+            BeginTransaction();
+            _categoryService.Remove(id);
+            Commit();
         }
 
         public void Dispose()

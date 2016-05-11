@@ -154,8 +154,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
             _postAppService.RemoveTagFromPost(idTag.Value, idPost.Value);
 
              var postViewModel = _postAppService.GetById(idPost.Value);
-
-            //todo retornar Json / tornar metodo AJAX
+                       
 
             return PartialView("_TagList", postViewModel);
         }
