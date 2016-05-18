@@ -1,5 +1,6 @@
 ﻿using AndreFilho.Blog.Domain.Interfaces.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using AndreFilho.Blog.Application.ViewModel;
 using AndreFilho.Blog.Domain.Entities;
@@ -9,24 +10,23 @@ namespace AndreFilho.Blog.Application.Services
 {
     public class BlogAppService : IBlogAppService
     {
-        private readonly IPostService _postService;
-        private readonly ICategoryService _categoryService;
+       
+        private readonly IBlogService _blogService;
 
-        public BlogAppService(IPostService postService, ICategoryService categoryService)
+        public BlogAppService(IBlogService blogService)
         {
-            _postService = postService;
-            _categoryService = categoryService;
+            _blogService = blogService;
         }
 
         public void Dispose()
         {
-            _postService.Dispose();
+            _blogService.Dispose();
             GC.SuppressFinalize(this);
         }
 
-        public IEnumerable<BlogViewModel> GetAll()
+        public IEnumerable<BlogViewModel> GetAllPosts()
         {
-            var posts = Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_postService.GetAll());
+            var posts = Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.GetAllPosts());
             return posts;
         }
 
@@ -34,7 +34,7 @@ namespace AndreFilho.Blog.Application.Services
         {
             SideBarViewModel sideBar = new SideBarViewModel();
 
-            var categories = Mapper.Map<IEnumerable<Category>, IEnumerable<CategoryViewModel>>(_categoryService.GetAll());
+            var categories = Mapper.Map<IEnumerable<Category>, IEnumerable<CategoryViewModel>>(_blogService.GetAllCategories());
 
             sideBar.Categories = categories;
 
@@ -42,23 +42,55 @@ namespace AndreFilho.Blog.Application.Services
             
         }
 
-        public PostViewModel getPostByUrlSlug(string slug)
+        public PostViewModel GetPostByUrlSlug(string slug)
         {
             
-            return Mapper.Map<Post, PostViewModel>(_postService.PostByUrlSlug(slug));
+            return Mapper.Map<Post, PostViewModel>(_blogService.GetPostByUrlSlug(slug));
         }
 
         public IEnumerable<BlogViewModel> PostsByCategory(string slug)
         {
 
-            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_postService.PostsByCategory(slug));
+            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.PostsByCategory(slug));
 
         }
 
         public IEnumerable<BlogViewModel> GetPosts(string search, string categoryUrl, string TagUrl)
         {
-            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_postService.GetPostsBySearchCategoryAndTag(search,categoryUrl, TagUrl));
+            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.GetPostsBySearchCategoryAndTag(search,categoryUrl, TagUrl));
 
+        }
+
+        public IEnumerable<TagViewModel> GetAllTags()
+        {
+            return Mapper.Map<IEnumerable<Tag>, IEnumerable<TagViewModel>>(_blogService.GetAllTags());
+        }
+
+        public IEnumerable<CategoryViewModel> GetAllCategories()
+        {
+           return Mapper.Map< IEnumerable<Category>, IEnumerable < CategoryViewModel >> (_blogService.GetAllCategories());
+        }
+
+        public Tag AddTag(Tag obj)
+        {
+            return _blogService.AddTag(obj);
+        }
+
+        public Category AddCategory(Category obj)
+        {
+            return _blogService.AddCategory(obj);
+        }
+
+        public void RemoveTag(Guid id)
+        {
+            _blogService.RemoveTag(id);
+        }
+
+        public void RemoveCategory(Guid id)
+        {
+            
+          _blogService.RemoveCategory(id);
+            
         }
     }
 }

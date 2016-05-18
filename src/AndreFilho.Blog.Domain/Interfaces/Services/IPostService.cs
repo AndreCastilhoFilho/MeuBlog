@@ -15,8 +15,8 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         Post Update(Post obj);
         void Remove(Guid id);       
         IEnumerable<Post> PostsByTag(string tagSlug);
+       
 
-      
         IEnumerable<Post> PostsByCategory(string slug);
 
         IEnumerable<Post> PostsBySearch(string search);
@@ -27,11 +27,10 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         int TotalPosts(bool checkIsPublished = true);
         int TotalPostsForTag(string tagSlug);
         int TotalPostsForSearch(string search);
-        IEnumerable<Post> GetPostsBySearchCategoryAndTag(string search, string categoryUrl, string tagUrl);
+        
 
         Post RemoveTagFromPost(Guid TagId, Guid PostId);
         Post AddTagToPost(Guid TagId, Guid PostId);
 
-        IEnumerable<Tag> GetAllTags();
     }
 }

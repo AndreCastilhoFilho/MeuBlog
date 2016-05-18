@@ -95,26 +95,7 @@ namespace AndreFilho.Blog.Domain.Services
             return _postRepository.PostsByCategory(slug);
         }
 
-        public IEnumerable<Post> GetPostsBySearchCategoryAndTag(string search, string categoryUrl, string tagUrl)
-        {
-            var posts = _postRepository.PostsByCategory(categoryUrl);
-
-            if (search != null && !String.IsNullOrEmpty(search))
-                posts = posts.Where(p => 
-                (p.Title.Contains(search)
-                || p.Category.Name.Equals(search)
-                || p.Tags.Any(t => t.Name.Equals(search))));
-
-            if (tagUrl != null && !String.IsNullOrEmpty(tagUrl))
-                posts = posts.Where(p => p.Tags.Any(t => t.UrlSlug.Equals(tagUrl)));
-
-
-            return posts;
-
-
-
-
-        }
+       
 
         public Post RemoveTagFromPost(Guid TagId, Guid PostId)
         {
@@ -142,5 +123,7 @@ namespace AndreFilho.Blog.Domain.Services
 
             return _postRepository.Update(post);
         }
+
+       
     }
 }

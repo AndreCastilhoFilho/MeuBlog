@@ -49,7 +49,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         [Route("Post/{slug}")]
         public ActionResult Post(string slug)
         {
-            var model = _blogService.getPostByUrlSlug(slug);
+            var model = _blogService.GetPostByUrlSlug(slug);
             return View(model);
         }
 

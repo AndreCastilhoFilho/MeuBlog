@@ -40,10 +40,12 @@
     <Compile Include="Interfaces\Repository\IPostRepository.cs" />
     <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Interfaces\Repository\ITagRepository.cs" />
+    <Compile Include="Interfaces\Services\IBlogService.cs" />
     <Compile Include="Interfaces\Services\ICategoryService.cs" />
     <Compile Include="Interfaces\Services\IPostService.cs" />
     <Compile Include="Interfaces\Services\ITagService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BlogService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\TagService.cs" />

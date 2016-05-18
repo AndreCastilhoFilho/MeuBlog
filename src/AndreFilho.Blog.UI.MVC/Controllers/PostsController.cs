@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AndreFilho.Blog.Application;
 using AndreFilho.Blog.Application.ViewModel;
 
 using AndreFilho.Blog.Application.Interfaces;
@@ -15,12 +16,12 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
     public class PostsController : Controller
     {
         private readonly IPostAppService _postAppService;
-        private readonly ICategoryAppService _categoryAppService;
+        private readonly IBlogAppService _blogAppService;
 
-        public PostsController(IPostAppService postService, ICategoryAppService categoryService)
+        public PostsController(IPostAppService postService, IBlogAppService blogService)
         {
             _postAppService = postService;
-            _categoryAppService = categoryService;
+            _blogAppService = blogService;
         }
 
         // GET: Posts
@@ -50,7 +51,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryId = 
-                _categoryAppService.GetAll().Select(p=> new SelectListItem
+                _blogAppService.GetAllCategories().Select(p=> new SelectListItem
             {
                 Text = p.Name, Value = p.CategoryId.ToString()
             });
@@ -85,7 +86,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
             }
             var postViewModel = _postAppService.GetById(id.Value);
 
-            postViewModel.Categories = _categoryAppService.GetAll();
+            postViewModel.Categories = _blogAppService.GetAllCategories();
             postViewModel.TagList = _postAppService.getAllTags();
             if (postViewModel == null)
             {
@@ -99,13 +100,16 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostId,Title,ShortDescription,Description,Meta,SlugUrl,Published,PostedOn,Modified,CategoryId,Category")] PostViewModel postViewModel)
+        public ActionResult Edit( PostViewModel postViewModel)
         {
             if (ModelState.IsValid)
             {
                 _postAppService.Update(postViewModel);               
                 return RedirectToAction("Index");
             }
+            postViewModel.Categories = _blogAppService.GetAllCategories();
+            postViewModel.TagList = _postAppService.getAllTags();
+
             return View(postViewModel);
         }
 
