@@ -31,5 +31,7 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
 
         Post RemoveTagFromPost(Guid TagId, Guid PostId);
         Post AddTagToPost(Guid TagId, Guid PostId);
+
+        IEnumerable<Tag> GetAllTags();
     }
 }

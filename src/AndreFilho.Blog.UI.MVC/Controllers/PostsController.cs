@@ -155,8 +155,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
 
              var postViewModel = _postAppService.GetById(idPost.Value);
 
-            //todo retornar Json / tornar metodo AJAX
-
+            
             return PartialView("_TagList", postViewModel);
         }
 
