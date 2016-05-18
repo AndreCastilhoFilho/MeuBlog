@@ -57,6 +57,7 @@
     <Compile Include="EntityConfig\CategoryConfig.cs" />
     <Compile Include="EntityConfig\PostConfig.cs" />
     <Compile Include="EntityConfig\TagConfig.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\201605030006133_create_schema.cs" />
     <Compile Include="Migrations\201605030006133_create_schema.Designer.cs">
       <DependentUpon>201605030006133_create_schema.cs</DependentUpon>
@@ -67,6 +68,7 @@
     <Compile Include="Repository\PostRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\TagRepository.cs" />
+    <Compile Include="UoW\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

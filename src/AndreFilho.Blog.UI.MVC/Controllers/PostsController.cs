@@ -154,8 +154,8 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
             _postAppService.RemoveTagFromPost(idTag.Value, idPost.Value);
 
              var postViewModel = _postAppService.GetById(idPost.Value);
+                       
 
-            
             return PartialView("_TagList", postViewModel);
         }
 

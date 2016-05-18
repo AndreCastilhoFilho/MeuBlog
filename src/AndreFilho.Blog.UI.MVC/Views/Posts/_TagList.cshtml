@@ -26,7 +26,7 @@
 
                     <td>
 
-                        <a href="@Url.Action("DeletarPostTag", "Posts", new {idPost = Model.PostId ,   idTag = item.TagId})" data-modal="" class="btn btn-danger" >
+                        <a href="@Url.Action("DeletarPostTag", "Posts", new {idPost = Model.PostId ,   idTag = item.TagId})"  data-modal="" class="btn btn-danger" id="removeTag" >
                             <span title="Excluir" class="glyphicon glyphicon-trash"></span>
                         </a>
 
@@ -51,16 +51,15 @@
     }
 
 </div>
-
-
 <script type="text/javascript">
-     $(function () {
-         $('a[data-modal]').click(function () {
+
+        $(function () {
+            $("a[data-modal]").on("click", function (e) {
 
                 $.ajax({
                     url: this.href,
                     type: 'GET',
-                    data: $(this).serialize() ,
+                    data: $(this).serialize(),
                     success: function (result) {
                         $('#replacetarget').html(result);
                     }
@@ -68,4 +67,5 @@
                 return false;
             });
         });
-    </script>
+
+</script>
