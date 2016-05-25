@@ -660,6 +660,13 @@
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\Create.cshtml" />
     <Content Include="Views\Posts\_TagList.cshtml" />
+    <Content Include="Views\Blog\CategoriesAndTags.cshtml" />
+    <Content Include="Views\Blog\_TagList.cshtml" />
+    <Content Include="Views\Blog\_CategoryList.cshtml" />
+    <Content Include="Views\Blog\_AddTag.cshtml" />
+    <Content Include="Views\Blog\_Tag.cshtml" />
+    <Content Include="Views\Blog\_DeleteTag.cshtml" />
+    <Content Include="Views\Blog\_DadosTag.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

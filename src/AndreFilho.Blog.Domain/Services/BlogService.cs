@@ -41,7 +41,7 @@ namespace AndreFilho.Blog.Domain.Services
 
         public IEnumerable<Category> GetAllCategories()
         {
-            return _categoryRepository.GetAll();
+            return _categoryRepository.GetAll().OrderBy(c=>c.Description);
         }
 
         public IEnumerable<Post> GetAllPosts()
@@ -51,7 +51,7 @@ namespace AndreFilho.Blog.Domain.Services
 
         public IEnumerable<Tag> GetAllTags()
         {
-            return _tagRepository.GetAll();
+            return _tagRepository.GetAll().OrderBy(t=>t.Description);
         }
 
         public Post GetPostByUrlSlug(string slug)
@@ -84,6 +84,16 @@ namespace AndreFilho.Blog.Domain.Services
         public void RemoveCategory(Guid id)
         {
           _categoryRepository.Remove(id);
+        }
+
+        public Tag GetTagById(Guid id)
+        {
+            return _tagRepository.GetById(id);
+        }
+
+        public Category GetCategoryById(Guid id)
+        {
+            return _categoryRepository.GetById(id);
         }
 
         public void RemoveTag(Guid id)

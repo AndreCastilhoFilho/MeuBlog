@@ -21,5 +21,7 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         Category AddCategory(Category obj);
         void RemoveTag(Guid id);
         void RemoveCategory(Guid id);
+        Tag GetTagById(Guid id);
+        Category GetCategoryById(Guid id);
     }
 }

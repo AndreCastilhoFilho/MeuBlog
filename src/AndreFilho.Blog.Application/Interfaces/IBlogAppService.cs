@@ -18,10 +18,12 @@ namespace AndreFilho.Blog.Application
         IEnumerable<TagViewModel> GetAllTags();
         IEnumerable<CategoryViewModel> GetAllCategories();
 
-        Tag  AddTag(Tag obj);
-        Category AddCategory(Category obj);
+        TagViewModel  AddTag(TagViewModel obj);
+        CategoryViewModel AddCategory(CategoryViewModel obj);
         void RemoveTag(Guid id);
         void RemoveCategory(Guid id);
+        TagViewModel GetTagById(Guid id);
+        CategoryViewModel GetCategoryById(Guid id);
 
     }
 }

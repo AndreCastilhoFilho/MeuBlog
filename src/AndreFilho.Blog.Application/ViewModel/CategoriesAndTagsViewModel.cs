@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AndreFilho.Blog.Application.ViewModel
 {
-    class CategoriesAndTagsViewModel
+   public class CategoriesAndTagsViewModel
     {
 
         public IEnumerable<TagViewModel> Tags { get; set; }

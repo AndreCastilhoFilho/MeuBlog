@@ -1,6 +1,9 @@
-﻿using AndreFilho.Blog.Application;
+﻿using System;
+using System.Net;
+using AndreFilho.Blog.Application;
 using PagedList;
 using System.Web.Mvc;
+using AndreFilho.Blog.Application.ViewModel;
 
 namespace AndreFilho.Blog.UI.MVC.Controllers
 {
@@ -54,6 +57,72 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
         }
 
 
+        // GET: Posts
+        public ActionResult CategoriesAndTags()
+        {
+            var categoriesAndTags =  new CategoriesAndTagsViewModel();
 
+            categoriesAndTags.Categories = _blogService.GetAllCategories();
+            categoriesAndTags.Tags = _blogService.GetAllTags();
+
+            return View(categoriesAndTags);
+        }
+        
+        [Route("excluir-tag/{id:guid}")]
+        public ActionResult DeleteTag(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tagViewModel = _blogService.GetTagById(id.Value);
+
+            return PartialView("_DeleteTag", tagViewModel);
+
+        }
+
+        [Route("excluir-tag/{id:guid}")]
+        [HttpPost, ActionName("DeleteTag")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteTagConfirmed(Guid id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            _blogService.RemoveTag(id);
+
+            string url = Url.Action("ListTags", "Blog");
+            return Json(new { success = true, url = url });
+            
+        }
+        [Route("adicionar-tag")]
+        public ActionResult AddTag()
+        {
+            return PartialView("_AddTag");
+        }
+        [Route("adicionar-tag")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTag(TagViewModel tagViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _blogService.AddTag(tagViewModel);
+                string url = Url.Action("ListTags", "Blog");
+                return Json(new { success = true, url = url });
+            }
+            return PartialView("_AddTag", tagViewModel);
+        }
+
+
+        public ActionResult ListTags()
+        {
+            var tags = _blogService.GetAllTags();
+            return PartialView("_TagList", tags);
+
+        }
     }
 }

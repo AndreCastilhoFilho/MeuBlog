@@ -4,16 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using AndreFilho.Blog.Application.ViewModel;
 using AndreFilho.Blog.Domain.Entities;
+using AndreFilho.Blog.Infra.Data.Interfaces;
 using AutoMapper;
 
 namespace AndreFilho.Blog.Application.Services
 {
-    public class BlogAppService : IBlogAppService
+    public class BlogAppService : ApplicationService, IBlogAppService
     {
-       
+
         private readonly IBlogService _blogService;
 
-        public BlogAppService(IBlogService blogService)
+        public BlogAppService(IBlogService blogService, IUnitOfWork wow)
+            : base(wow)
         {
             _blogService = blogService;
         }
@@ -39,12 +41,12 @@ namespace AndreFilho.Blog.Application.Services
             sideBar.Categories = categories;
 
             return sideBar;
-            
+
         }
 
         public PostViewModel GetPostByUrlSlug(string slug)
         {
-            
+
             return Mapper.Map<Post, PostViewModel>(_blogService.GetPostByUrlSlug(slug));
         }
 
@@ -57,7 +59,7 @@ namespace AndreFilho.Blog.Application.Services
 
         public IEnumerable<BlogViewModel> GetPosts(string search, string categoryUrl, string TagUrl)
         {
-            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.GetPostsBySearchCategoryAndTag(search,categoryUrl, TagUrl));
+            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.GetPostsBySearchCategoryAndTag(search, categoryUrl, TagUrl));
 
         }
 
@@ -68,29 +70,51 @@ namespace AndreFilho.Blog.Application.Services
 
         public IEnumerable<CategoryViewModel> GetAllCategories()
         {
-           return Mapper.Map< IEnumerable<Category>, IEnumerable < CategoryViewModel >> (_blogService.GetAllCategories());
+            return Mapper.Map<IEnumerable<Category>, IEnumerable<CategoryViewModel>>(_blogService.GetAllCategories());
         }
 
-        public Tag AddTag(Tag obj)
+        public TagViewModel AddTag(TagViewModel obj)
         {
-            return _blogService.AddTag(obj);
+            BeginTransaction();
+            var tag = Mapper.Map<TagViewModel, Tag>(obj);
+            _blogService.AddTag(tag);
+            Commit();
+
+            return obj;
         }
 
-        public Category AddCategory(Category obj)
+        public CategoryViewModel AddCategory(CategoryViewModel obj)
         {
-            return _blogService.AddCategory(obj);
+            BeginTransaction();
+            var category = Mapper.Map<CategoryViewModel, Category>(obj);
+            _blogService.AddCategory(category);
+            Commit();
+
+            return obj;
         }
 
         public void RemoveTag(Guid id)
         {
+            BeginTransaction();
             _blogService.RemoveTag(id);
+            Commit();
         }
 
         public void RemoveCategory(Guid id)
         {
-            
-          _blogService.RemoveCategory(id);
-            
+
+            _blogService.RemoveCategory(id);
+
+        }
+
+        public TagViewModel GetTagById(Guid id)
+        {
+            return    Mapper.Map<Tag, TagViewModel>( _blogService.GetTagById(id));
+        }
+
+        public CategoryViewModel GetCategoryById(Guid id)
+        {
+            return Mapper.Map<Category, CategoryViewModel>(_blogService.GetCategoryById(id));
         }
     }
 }
