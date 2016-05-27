@@ -8,15 +8,15 @@
     <h2>@ViewBag.Title</h2>
 
     <p>
-       
-        @Html.ActionLink("NovaTag", "AddTag", "Blog", null, new {@class = "btn btn-primary", data_modal = ""})
+
+        @Html.ActionLink("Nova Tag", "AddTag", "Blog", null, new { @class = "btn btn-primary", data_modal = "" })
     </p>
 
     <div id="replacetarget1">
         @Html.Partial("_TagList", Model.Tags)
     </div>
     <p>
-        @Html.ActionLink("Nova Categoria", "AddCategory")
+        @Html.ActionLink("Nova Categoria", "AddCategory", "Blog", null, new { @class = "btn btn-primary", data_modal = "" })
     </p>
     <div id="replacetarget2">
         @Html.Partial("_CategoryList", Model.Categories)
@@ -33,42 +33,45 @@
 <script type="text/javascript">
 
 
-        $(function () {
-            $.ajaxSetup({ cache: false });
+    $(function () {
+        $.ajaxSetup({ cache: false });
 
-            $('#Listas').on("click", "a[data-modal]",
-           function (e) {
-               
-                $('#myModalContent').load(this.href, function () {
-                    $('#myModal').modal({
-                        /*backdrop: 'static',*/
-                        keyboard: true
-                    }, 'show');
-                    bindForm(this);
-                });
-                return false;
-            });
-        });
+        $('#Listas').on("click", "a[data-modal]",
+       function (e) {
 
-        function bindForm(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
+           $('#myModalContent').load(this.href, function () {
+               $('#myModal').modal({
+                   /*backdrop: 'static',*/
+                   keyboard: true
+               }, 'show');
+               bindForm(this);
+           });
+           return false;
+       });
+    });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        if (result.url.indexOf("Categories"))
+                            $('#replacetarget2').load(result.url);
+                        else
                             $('#replacetarget1').load(result.url); // Carrega o resultado HTML para a div demarcada
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm(dialog);
-                        }
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
                     }
-                });
-                return false;
+                }
             });
-        }
+            return false;
+        });
+    }
 </script>
 
 

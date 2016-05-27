@@ -147,5 +147,64 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
             return PartialView("_TagList", tags);
 
         }
+
+
+        [Route("adicionar-categoria")]
+        public ActionResult AddCategory()
+        {
+            return PartialView("_AddCategory");
+        }
+        [Route("adicionar-categoria")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCategory(CategoryViewModel categoryViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _blogService.AddCategory(categoryViewModel);
+                string url = Url.Action("ListCategories", "Blog");
+                return Json(new { success = true, url = url });
+            }
+            return PartialView("_AddCategory", categoryViewModel);
+        }
+
+
+        public ActionResult ListCategories()
+        {
+            var categories = _blogService.GetAllCategories();
+            return PartialView("_CategoryList", categories);
+
+        }
+
+
+        [Route("excluir-category/{id:guid}")]
+        public ActionResult DeleteCategory(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var categoryViewModel = _blogService.GetCategoryById(id.Value);
+
+            return PartialView("_DeleteCategory", categoryViewModel);
+
+        }
+
+        [Route("excluir-category/{id:guid}")]
+        [HttpPost, ActionName("DeleteCategory")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCategoryConfirmed(Guid id)
+        {
+         
+            _blogService.RemoveCategory(id);
+
+            string url = Url.Action("ListCategories", "Blog");
+            return Json(new { success = true, url = url });
+
+        }
+
     }
+
+    
 }

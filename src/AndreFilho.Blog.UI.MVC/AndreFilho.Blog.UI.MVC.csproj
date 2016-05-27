@@ -667,6 +667,10 @@
     <Content Include="Views\Blog\_Tag.cshtml" />
     <Content Include="Views\Blog\_DeleteTag.cshtml" />
     <Content Include="Views\Blog\_DadosTag.cshtml" />
+    <Content Include="Views\Blog\_AddCategory.cshtml" />
+    <Content Include="Views\Blog\_Category.cshtml" />
+    <Content Include="Views\Blog\_DeleteCategory.cshtml" />
+    <Content Include="Views\Blog\_DadosCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

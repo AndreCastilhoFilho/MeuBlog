@@ -102,9 +102,9 @@ namespace AndreFilho.Blog.Application.Services
 
         public void RemoveCategory(Guid id)
         {
-
+            BeginTransaction();
             _blogService.RemoveCategory(id);
-
+            Commit();
         }
 
         public TagViewModel GetTagById(Guid id)
