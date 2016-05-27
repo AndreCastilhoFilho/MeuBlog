@@ -10,7 +10,7 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
     public class BlogController : Controller
     {
         private readonly IBlogAppService _blogService;
-        private const  int pageSize = 10;
+        private const  int pageSize = 5;
 
         public BlogController(IBlogAppService blogService)
         {
@@ -19,14 +19,37 @@ namespace AndreFilho.Blog.UI.MVC.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Index(int? page, string sortOrder, string searchString, string searchCategory, string searchTag)
+        public ActionResult Index()
         {
-            ViewBag.CurrentSearchCategory = searchCategory;
-            int pageNumber = (page ?? 1);
-            
-            var posts = _blogService.GetPosts(searchString, searchCategory, searchTag).ToPagedList(pageNumber, pageSize);
+          var posts = _blogService.GetAllPosts().ToPagedList(1, pageSize);
           
             return View(posts);
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult PageListPost(int? page, string sortOrder, string searchString, string searchCategory, string searchTag)
+        {
+            ViewBag.CurrentSearchCategory = searchCategory;
+            ViewBag.searchString = searchString;
+            int pageNumber = (page ?? 1);
+
+            var posts = _blogService.GetPostsBySearchCategoryAndTag(searchString, searchCategory, searchTag).ToPagedList(pageNumber, pageSize);
+
+            return View("Index",posts);
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SearchPosts(string searchString)
+        {
+            ViewBag.searchString = searchString;
+            TempData["searchString"] = searchString;
+            var posts = _blogService.GetPostsBySearch(searchString).ToPagedList(1, pageSize);
+
+            return View("Index", posts);
         }
 
         [HttpGet]

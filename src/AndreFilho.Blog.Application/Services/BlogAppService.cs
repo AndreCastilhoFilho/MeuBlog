@@ -57,7 +57,7 @@ namespace AndreFilho.Blog.Application.Services
 
         }
 
-        public IEnumerable<BlogViewModel> GetPosts(string search, string categoryUrl, string TagUrl)
+        public IEnumerable<BlogViewModel> GetPostsBySearchCategoryAndTag(string search, string categoryUrl, string TagUrl)
         {
             return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.GetPostsBySearchCategoryAndTag(search, categoryUrl, TagUrl));
 
@@ -115,6 +115,11 @@ namespace AndreFilho.Blog.Application.Services
         public CategoryViewModel GetCategoryById(Guid id)
         {
             return Mapper.Map<Category, CategoryViewModel>(_blogService.GetCategoryById(id));
+        }
+
+        public IEnumerable<BlogViewModel> GetPostsBySearch(string search)
+        {
+            return Mapper.Map<IEnumerable<Post>, IEnumerable<BlogViewModel>>(_blogService.PostsBySearch(search));
         }
     }
 }

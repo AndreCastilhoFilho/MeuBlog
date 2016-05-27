@@ -1,6 +1,9 @@
 ﻿@model PagedList.IPagedList<AndreFilho.Blog.Application.ViewModel.BlogViewModel>
 @using PagedList.Mvc;
 
+<input type="hidden" name="searchString" value="@ViewBag.searchString"/>
+<input type="hidden" name="searchCategory" value="@ViewBag.CurrentSearchCategory" />
+
 @foreach (var post in Model)
 {
 
@@ -33,7 +36,7 @@
         {
             @:Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
             
-            @Html.PagedListPager(Model, page => Url.Action("Index", "Blog", new { page = page }), PagedListRenderOptions.Minimal)
+            @Html.PagedListPager(Model, page => Url.Action("PageListPost", "Blog", new { page = page }), PagedListRenderOptions.Minimal)
         }
 
     }

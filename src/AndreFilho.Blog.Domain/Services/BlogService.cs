@@ -100,5 +100,10 @@ namespace AndreFilho.Blog.Domain.Services
         {
            _tagRepository.Remove(id);
         }
+
+        public IEnumerable<Post> PostsBySearch(string search)
+        {
+            return _postRepository.PostsBySearch(search);
+        }
     }
 }

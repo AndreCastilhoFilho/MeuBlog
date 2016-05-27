@@ -10,9 +10,10 @@ namespace AndreFilho.Blog.Domain.Interfaces.Services
         IEnumerable<Post> GetAllPosts();
         Post GetPostByUrlSlug(string urlSlug);
 
+
         IEnumerable<Post> PostsByCategory(string category);
         IEnumerable<Post> GetPostsBySearchCategoryAndTag(string search, string category, string tag);
-
+        IEnumerable<Post> PostsBySearch(string search);
 
         IEnumerable<Tag> GetAllTags();
         IEnumerable<Category> GetAllCategories();

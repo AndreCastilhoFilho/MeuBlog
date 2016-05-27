@@ -1,5 +1,8 @@
 ﻿@model AndreFilho.Blog.Application.ViewModel.SideBarViewModel
 
+@{
+    var searchString = TempData["searchString"] as string;
+}
 
 <div class="col-md-4">
 
@@ -11,24 +14,32 @@
             Adicionar Post
         </a>
         <a href="@Url.Action("CategoriesAndTags", "Blog", null)" class="btn btn-primary">
-             Categories and Tags
+            Categories and Tags
         </a>
 
-     </div> 
-    
-        <!-- Blog Search Well -->
-        <div class="well">
-            <h4>Busca</h4>
+    </div>
+
+    <!-- Blog Search Well -->
+    <div class="well">
+        <h4>Busca</h4>
+
+        @using (Html.BeginForm("SearchPosts", "Blog", FormMethod.Get, new { id = "search-form" }))
+        {
             <div class="input-group">
-                <input type="text" class="form-control">
+                @Html.TextBox("searchString", (string)searchString, new { @class = "form-control" })
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
+
+                    <button class="btn btn-default" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
-                </span>
-            </div>
-            <!-- /.input-group -->
-        </div>
 
-        @Html.Partial("_Categories", Model.Categories)
+                </span>
+
+            </div>
+        }
+
+        <!-- /.input-group -->
     </div>
+
+    @Html.Partial("_Categories", Model.Categories)
+</div>
