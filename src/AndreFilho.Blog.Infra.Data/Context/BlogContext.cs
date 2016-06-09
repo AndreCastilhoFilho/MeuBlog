@@ -2,8 +2,13 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
+using System.Security.Claims;
 using AndreFilho.Blog.Domain.Entities;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Context;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Model;
 using AndreFilho.Blog.Infra.Data.EntityConfig;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AndreFilho.Blog.Infra.Data.Context
 {
@@ -13,12 +18,14 @@ namespace AndreFilho.Blog.Infra.Data.Context
         public BlogContext()
             : base("DefaultConnection")
         {
-            
-        }    
+          
+        }
 
+     
         public DbSet<Post> Posts { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Category> Categories { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -60,5 +67,9 @@ namespace AndreFilho.Blog.Infra.Data.Context
             }
             return base.SaveChanges();
         }
+        
+
+        
+
     }
 }

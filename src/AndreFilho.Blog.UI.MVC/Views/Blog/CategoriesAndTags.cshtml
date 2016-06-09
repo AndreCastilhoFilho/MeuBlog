@@ -59,7 +59,7 @@
                 success: function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
-                        if (result.url.indexOf("Categories"))
+                        if (result.url.indexOf("Categories") > -1)
                             $('#replacetarget2').load(result.url);
                         else
                             $('#replacetarget1').load(result.url); // Carrega o resultado HTML para a div demarcada

@@ -5,10 +5,16 @@ using AndreFilho.Blog.Application.Services;
 using AndreFilho.Blog.Domain.Interfaces.Repository;
 using AndreFilho.Blog.Domain.Interfaces.Services;
 using AndreFilho.Blog.Domain.Services;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Configuration;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Context;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Model;
 using AndreFilho.Blog.Infra.Data.Context;
 using AndreFilho.Blog.Infra.Data.Interfaces;
 using AndreFilho.Blog.Infra.Data.Repository;
 using AndreFilho.Blog.Infra.Data.UoW;
+
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using SimpleInjector;
 
 namespace AndreFilho.Blog.Infra.CrossCutting.IoC
@@ -39,6 +45,16 @@ namespace AndreFilho.Blog.Infra.CrossCutting.IoC
             //container.Register(typeof(IRepository<>), typeof(Repository<>));
             container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
             container.Register<BlogContext>(Lifestyle.Scoped);
+
+            //Identity
+            container.RegisterPerWebRequest<ApplicationDbContext>();
+            container.RegisterPerWebRequest<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            container.RegisterPerWebRequest<IRoleStore <IdentityRole, string>>(() => new RoleStore<IdentityRole>());
+            container.RegisterPerWebRequest<ApplicationRoleManager>();
+            container.RegisterPerWebRequest<ApplicationUserManager>();
+            container.RegisterPerWebRequest<ApplicationSignInManager>();
+
+          
         }
     }
 }

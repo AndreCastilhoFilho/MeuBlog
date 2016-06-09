@@ -19,7 +19,7 @@ namespace AndreFilho.Blog.Application.ViewModel
         public string Name { get; set; }
 
         [Display(Name = "Descrição")]
-        [MaxLength(200, ErrorMessage = "Máximo {0} caracteres")]
+        [MaxLength(6, ErrorMessage = "Máximo {0} caracteres")]
         public string Description { get; set; }
 
         public string UrlSlug { get; set; }

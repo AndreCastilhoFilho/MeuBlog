@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Web.Mvc;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Configuration;
+using AndreFilho.Blog.Infra.CrossCutting.Identity.Model;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.DataProtection;
 using Owin;
-using AndreFilho.Blog.UI.MVC.Models;
+
 
 namespace AndreFilho.Blog.UI.MVC
 {
@@ -15,9 +18,7 @@ namespace AndreFilho.Blog.UI.MVC
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<ApplicationUserManager>());
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider

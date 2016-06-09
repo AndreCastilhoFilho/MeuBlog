@@ -1,3 +1,7 @@
+using System.Web;
+using Microsoft.Owin;
+using SimpleInjector.Advanced;
+
 [assembly: WebActivator.PostApplicationStartMethod(typeof(AndreFilho.Blog.UI.MVC.App_Start.SimpleInjectorInitializer), "Initialize")]
 
 namespace AndreFilho.Blog.UI.MVC.App_Start
@@ -19,6 +23,19 @@ namespace AndreFilho.Blog.UI.MVC.App_Start
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
             
             InitializeContainer(container);
+
+
+            // Necessário para registrar o ambiente do Owin que é dependência do Identity
+            // Feito fora da camada de IoC para não levar o System.Web para fora
+            container.RegisterPerWebRequest(() =>
+            {
+                if (HttpContext.Current != null && HttpContext.Current.Items["owin.Environment"] == null && container.IsVerifying())
+                {
+                    return new OwinContext().Authentication;
+                }
+                return HttpContext.Current.GetOwinContext().Authentication;
+
+            });
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             
