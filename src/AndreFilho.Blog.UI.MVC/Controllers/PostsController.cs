@@ -10,9 +10,11 @@ using AndreFilho.Blog.Application;
 using AndreFilho.Blog.Application.ViewModel;
 
 using AndreFilho.Blog.Application.Interfaces;
+using AndreFilho.Blog.Infra.CrossCutting.MvcFilters;
 
 namespace AndreFilho.Blog.UI.MVC.Controllers
 {
+    [ClaimsAuthorize("PermissoesUsuario", "PC")]
     public class PostsController : Controller
     {
         private readonly IPostAppService _postAppService;

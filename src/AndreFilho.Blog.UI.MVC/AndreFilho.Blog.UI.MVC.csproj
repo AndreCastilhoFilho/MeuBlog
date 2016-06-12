@@ -687,6 +687,10 @@
       <Project>{2130f720-0e4d-468a-b017-0d50fc2fe31f}</Project>
       <Name>AndreFilho.Blog.Infra.CrossCutting.IoC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AndreFilho.Blog.Infra.CrossCutting.MvcFilters\AndreFilho.Blog.Infra.CrossCutting.MvcFilters.csproj">
+      <Project>{253795ad-9e5f-464b-8a36-1dc5cec1dae8}</Project>
+      <Name>AndreFilho.Blog.Infra.CrossCutting.MvcFilters</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
