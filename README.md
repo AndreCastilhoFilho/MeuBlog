@@ -1,7 +1,7 @@
 # MeuBlog
 Projeto em ASP .NET  MVC5 
 
-##Objetivo
+## Objetivo
 Estudo de  tecnologias e Design Patterns em ASP .NET.
 O projeto deverá servir como um blog onde será possível cadastro de Posts com  Categorias e tags.
 Terá integração com   AddThis e RSS Feed para compartilhamento e subscrição.  
